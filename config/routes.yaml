@@ -3,3 +3,26 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+
+########## SENSOR ##########
+
+user_list:
+    path:       /api/sensor/list
+    controller: App\Controller\SensorController::list
+    methods:    GET
+
+user_create:
+    path:       /api/sensor/create
+    controller: App\Controller\SensorController::create
+    methods:    POST
+
+user_update:
+    path:       /api/sensor/update/{id}
+    controller: App\Controller\SensorController::update
+    methods:    POST
+
+user_delete:
+    path:       /api/sensor/delete/{id}
+    controller: App\Controller\SensorController::delete
+    methods:    DELETE

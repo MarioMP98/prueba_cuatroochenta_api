@@ -20,10 +20,10 @@ class Measuring
     private ?string $relation = null;
 
     #[ORM\ManyToOne(inversedBy: 'measurings')]
-    private ?sensor $sensor = null;
+    private ?Sensor $sensor = null;
 
     #[ORM\ManyToOne(inversedBy: 'measurings')]
-    private ?wine $wine = null;
+    private ?Wine $wine = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $color = null;
@@ -66,24 +66,24 @@ class Measuring
         return $this;
     }
 
-    public function getSensor(): ?sensor
+    public function getSensor(): ?Sensor
     {
         return $this->sensor;
     }
 
-    public function setSensor(?sensor $sensor): static
+    public function setSensor(?Sensor $sensor): static
     {
         $this->sensor = $sensor;
 
         return $this;
     }
 
-    public function getWine(): ?wine
+    public function getWine(): ?Wine
     {
         return $this->wine;
     }
 
-    public function setWine(?wine $wine): static
+    public function setWine(?Wine $wine): static
     {
         $this->wine = $wine;
 
