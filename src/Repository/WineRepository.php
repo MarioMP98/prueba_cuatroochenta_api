@@ -16,28 +16,69 @@ class WineRepository extends ServiceEntityRepository
         parent::__construct($registry, Wine::class);
     }
 
-    //    /**
-    //     * @return Wine[] Returns an array of Wine objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('w')
-    //            ->andWhere('w.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('w.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function list(): array
+    {
+        $entityManager = $this->getEntityManager();
+        $sql = 'SELECT w FROM App\Entity\Wine w';
 
-    //    public function findOneBySomeField($value): ?Wine
-    //    {
-    //        return $this->createQueryBuilder('w')
-    //            ->andWhere('w.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $query = $entityManager->createQuery($sql);
+
+        return $query->getResult();
+    }
+
+
+    public function create($params): Wine
+    {
+        $wine = new Wine();
+
+        if(isset($params['name'])) {
+            $wine->setName($params['name']);
+        }
+
+        if(isset($params['year'])) {
+            $wine->setYear($params['year']);
+        }
+
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($wine);
+        $entityManager->flush();
+
+        return $wine;
+    }
+
+
+    public function update($id, $params): Wine|null
+    {
+        $entityManager = $this->getEntityManager();
+        $wine = $this->find($id);
+
+        if($wine) {
+
+            if(isset($params['name'])) {
+                $wine->setName($params['name']);
+            }
+
+            if(isset($params['year'])) {
+                $wine->setYear($params['year']);
+            }
+            
+            $entityManager->flush();
+        }
+
+        return $wine;
+    }
+
+
+    public function delete($id): Wine|null
+    {
+        $entityManager = $this->getEntityManager();
+        $wine = $this->find($id);
+
+        if($wine) {
+            $entityManager->remove($wine);
+            $entityManager->flush();
+        }
+
+        return $wine;
+    }
 }

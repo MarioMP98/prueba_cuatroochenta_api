@@ -77,7 +77,7 @@ class SensorController extends AbstractController
 
         } catch (\Exception) {
 
-            return new JsonResponse("There was an error while updating the sensor");
+            return new JsonResponse("There was an error while deleting the sensor");
         }
 
         if (!$sensor) {

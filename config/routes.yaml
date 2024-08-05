@@ -7,22 +7,45 @@ controllers:
 
 ########## SENSOR ##########
 
-user_list:
+sensor_list:
     path:       /api/sensor/list
     controller: App\Controller\SensorController::list
     methods:    GET
 
-user_create:
+sensor_create:
     path:       /api/sensor/create
     controller: App\Controller\SensorController::create
     methods:    POST
 
-user_update:
+sensor_update:
     path:       /api/sensor/update/{id}
     controller: App\Controller\SensorController::update
     methods:    POST
 
-user_delete:
+sensor_delete:
     path:       /api/sensor/delete/{id}
     controller: App\Controller\SensorController::delete
+    methods:    DELETE
+
+
+########## WINE ##########
+
+wine_list:
+    path:       /api/wine/list
+    controller: App\Controller\WineController::list
+    methods:    GET
+
+wine_create:
+    path:       /api/wine/create
+    controller: App\Controller\WineController::create
+    methods:    POST
+
+wine_update:
+    path:       /api/wine/update/{id}
+    controller: App\Controller\WineController::update
+    methods:    POST
+
+wine_delete:
+    path:       /api/wine/delete/{id}
+    controller: App\Controller\WineController::delete
     methods:    DELETE

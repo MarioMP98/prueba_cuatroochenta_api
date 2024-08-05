@@ -58,29 +58,26 @@ trait Parser
     }
 
 
-    private function parseCategories($categories): array
+    private function parseWines($wines): array
     {
         $arrayCollection = array();
 
-        foreach($categories as $item) {
+        foreach($wines as $item) {
 
-            $arrayCollection[] = $this->parseCategory($item);
+            $arrayCollection[] = $this->parseWine($item);
         }
 
         return $arrayCollection;
     }
 
 
-    private function parseCategory($item): array
+    private function parseWine($item): array
     {
 
         return array(
             'id' => $item->getId(),
-            'nombre' => $item->getNombre(),
-            'descripcion' => $item->getDescripcion(),
-            'created_at' => $this->formatDateTime($item->getCreatedAt()),
-            'updated_at' => $this->formatDateTime($item->getUpdatedAt()),
-            'deleted_at' =>  $this->formatDateTime($item->getDeletedAt())
+            'name' => $item->getName(),
+            'year' => $item->getYear()
         );
     }
 
