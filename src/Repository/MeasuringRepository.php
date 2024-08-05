@@ -16,28 +16,93 @@ class MeasuringRepository extends ServiceEntityRepository
         parent::__construct($registry, Measuring::class);
     }
 
-    //    /**
-    //     * @return Measuring[] Returns an array of Measuring objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('m.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function list(): array
+    {
+        $entityManager = $this->getEntityManager();
+        $sql = 'SELECT m FROM App\Entity\Measuring m';
 
-    //    public function findOneBySomeField($value): ?Measuring
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $query = $entityManager->createQuery($sql);
+
+        return $query->getResult();
+    }
+
+
+    public function create($params): Measuring
+    {
+        $measuring = new Measuring();
+
+        if(isset($params['year'])) {
+            $measuring->setYear($params['year']);
+        }
+
+        if(isset($params['color'])) {
+            $measuring->setColor($params['color']);
+        }
+
+        if(isset($params['temperature'])) {
+            $measuring->setTemperature($params['temperature']);
+        }
+
+        if(isset($params['graduation'])) {
+            $measuring->setGraduation($params['graduation']);
+        }
+
+        if(isset($params['ph'])) {
+            $measuring->setPh($params['ph']);
+        }
+
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($measuring);
+        $entityManager->flush();
+
+        return $measuring;
+    }
+
+
+    public function update($id, $params): Measuring|null
+    {
+        $entityManager = $this->getEntityManager();
+        $measuring = $this->find($id);
+
+        if($measuring) {
+
+            if(isset($params['year'])) {
+                $measuring->setYear($params['year']);
+            }
+    
+            if(isset($params['color'])) {
+                $measuring->setColor($params['color']);
+            }
+    
+            if(isset($params['temperature'])) {
+                $measuring->setTemperature($params['temperature']);
+            }
+    
+            if(isset($params['graduation'])) {
+                $measuring->setGraduation($params['graduation']);
+            }
+    
+            if(isset($params['ph'])) {
+                $measuring->setPh($params['ph']);
+            }
+            
+            $entityManager->flush();
+        }
+
+        return $measuring;
+    }
+
+
+    public function delete($id): Measuring|null
+    {
+        $entityManager = $this->getEntityManager();
+        $measuring = $this->find($id);
+
+        if($measuring) {
+            $entityManager->remove($measuring);
+            $entityManager->flush();
+        }
+
+        return $measuring;
+    }
 }

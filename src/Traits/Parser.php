@@ -82,6 +82,35 @@ trait Parser
     }
 
 
+    private function parseMeasurings($measurings): array
+    {
+        $arrayCollection = array();
+
+        foreach($measurings as $item) {
+
+            $arrayCollection[] = $this->parseMeasuring($item);
+        }
+
+        return $arrayCollection;
+    }
+
+
+    private function parseMeasuring($item): array
+    {
+
+        return array(
+            'id' => $item->getId(),
+            'year' => $item->getYear(),
+            'sensor' => null,
+            'wine' => null,
+            'color' => $item->getColor(),
+            'temperature' => $item->getTemperature() ? number_format($item->getTemperature(),2,',','.') . ' ºC' : null,
+            'graduation' => $item->getGraduation(),
+            'PH' => $item->getPh()
+        );
+    }
+
+
     public function formatDateTime($datetime): string|null
     {
 

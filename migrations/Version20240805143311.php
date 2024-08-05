@@ -23,7 +23,7 @@ final class Version20240805143311 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE measuring_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE sensor_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE wine_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE measuring (id INT NOT NULL, sensor_id INT DEFAULT NULL, wine_id INT DEFAULT NULL, year INT DEFAULT NULL, relation VARCHAR(255) DEFAULT NULL, color VARCHAR(255) DEFAULT NULL, temperature DOUBLE PRECISION DEFAULT NULL, graduation DOUBLE PRECISION DEFAULT NULL, ph DOUBLE PRECISION DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE measuring (id INT NOT NULL, sensor_id INT DEFAULT NULL, wine_id INT DEFAULT NULL, year INT DEFAULT NULL, color VARCHAR(255) DEFAULT NULL, temperature DOUBLE PRECISION DEFAULT NULL, graduation DOUBLE PRECISION DEFAULT NULL, ph DOUBLE PRECISION DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_ECF3A169A247991F ON measuring (sensor_id)');
         $this->addSql('CREATE INDEX IDX_ECF3A16928A2BD76 ON measuring (wine_id)');
         $this->addSql('CREATE TABLE sensor (id INT NOT NULL, name VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');

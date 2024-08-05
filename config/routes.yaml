@@ -49,3 +49,25 @@ wine_delete:
     path:       /api/wine/delete/{id}
     controller: App\Controller\WineController::delete
     methods:    DELETE
+
+########## MEASURING ##########
+
+measuring_list:
+    path:       /api/measuring/list
+    controller: App\Controller\MeasuringController::list
+    methods:    GET
+
+measuring_create:
+    path:       /api/measuring/create
+    controller: App\Controller\MeasuringController::create
+    methods:    POST
+
+measuring_update:
+    path:       /api/measuring/update/{id}
+    controller: App\Controller\MeasuringController::update
+    methods:    POST
+
+measuring_delete:
+    path:       /api/measuring/delete/{id}
+    controller: App\Controller\MeasuringController::delete
+    methods:    DELETE
