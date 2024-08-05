@@ -101,8 +101,8 @@ trait Parser
         return array(
             'id' => $item->getId(),
             'year' => $item->getYear(),
-            'sensor' => null,
-            'wine' => null,
+            'sensor' => $this->parseSensor($item->getSensor()),
+            'wine' => $this->parseWine($item->getWine()),
             'color' => $item->getColor(),
             'temperature' => $item->getTemperature() ? number_format($item->getTemperature(),2,',','.') . ' ºC' : null,
             'graduation' => $item->getGraduation(),

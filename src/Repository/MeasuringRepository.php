@@ -27,7 +27,7 @@ class MeasuringRepository extends ServiceEntityRepository
     }
 
 
-    public function create($params): Measuring
+    public function create($params, $sensor, $wine): Measuring
     {
         $measuring = new Measuring();
 
@@ -51,6 +51,14 @@ class MeasuringRepository extends ServiceEntityRepository
             $measuring->setPh($params['ph']);
         }
 
+        if($sensor) {
+            $measuring->setSensor($sensor);
+        }
+
+        if($wine) {
+            $measuring->setWine($wine);
+        }
+
         $entityManager = $this->getEntityManager();
         $entityManager->persist($measuring);
         $entityManager->flush();
@@ -59,7 +67,7 @@ class MeasuringRepository extends ServiceEntityRepository
     }
 
 
-    public function update($id, $params): Measuring|null
+    public function update($id, $params, $sensor, $wine): Measuring|null
     {
         $entityManager = $this->getEntityManager();
         $measuring = $this->find($id);
@@ -84,6 +92,14 @@ class MeasuringRepository extends ServiceEntityRepository
     
             if(isset($params['ph'])) {
                 $measuring->setPh($params['ph']);
+            }
+
+            if($sensor) {
+                $measuring->setSensor($sensor);
+            }
+    
+            if($wine) {
+                $measuring->setWine($wine);
             }
             
             $entityManager->flush();
