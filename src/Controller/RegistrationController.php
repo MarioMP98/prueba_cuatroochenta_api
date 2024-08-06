@@ -2,26 +2,24 @@
 
 namespace App\Controller;
 
-use App\Repository\UserRepository;
+use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Attribute\Route;
 
 class RegistrationController extends AbstractController
 {
     protected $service;
 
 
-    public function __construct(UserRepository $service)
+    public function __construct(UserService $service)
     {
         $this->service = $service;
     }
 
 
-    #[Route('api/register', name: 'app_registration')]
-    public function index(Request $request, UserPasswordHasherInterface $passwordHasher): JsonResponse
+    public function register(Request $request, UserPasswordHasherInterface $passwordHasher): JsonResponse
     {
         
         $this->service->create($request->request->all(), $passwordHasher);

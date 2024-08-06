@@ -5,7 +5,15 @@ controllers:
     type: attribute
 
 
-########## SENSOR ##########
+########## USER ##########
+
+user_register:
+    path:       /api/register
+    controller: App\Controller\RegistrationController::register
+    methods:    POST
+
+
+######### SENSOR #########
 
 sensor_list:
     path:       /api/sensor/list
@@ -50,7 +58,7 @@ wine_delete:
     controller: App\Controller\WineController::delete
     methods:    DELETE
 
-########## MEASURING ##########
+######## MEASURING #######
 
 measuring_list:
     path:       /api/measuring/list
