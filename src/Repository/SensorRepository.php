@@ -19,7 +19,7 @@ class SensorRepository extends ServiceEntityRepository
     public function list(): array
     {
         $entityManager = $this->getEntityManager();
-        $sql = 'SELECT s FROM App\Entity\Sensor s';
+        $sql = 'SELECT s FROM App\Entity\Sensor s ORDER BY s.name';
 
         $query = $entityManager->createQuery($sql);
 

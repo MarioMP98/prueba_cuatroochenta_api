@@ -4,14 +4,13 @@ namespace App\Traits;
 
 trait Parser
 {
-    protected const DATE_FORMAT = 'd/m/Y H:i:s';
-
 
     private function parseUsers($users): array
     {
         $arrayCollection = array();
 
         foreach($users as $item) {
+
             $arrayCollection[] = $this->parseUser($item);
         }
 
@@ -24,12 +23,8 @@ trait Parser
         
         return array(
             'id' => $item->getId(),
-            'nombre' => $item->getNombre(),
-            'email' => $item->getEmail(),
-            'password' => $item->getPassword(),
-            'created_at' => $this->formatDateTime($item->getCreatedAt()),
-            'updated_at' => $this->formatDateTime($item->getUpdatedAt()),
-            'deleted_at' =>  $this->formatDateTime($item->getDeletedAt())
+            'nombre' => $item->getName(),
+            'email' => $item->getEmail()
         );
     }
 
@@ -39,7 +34,6 @@ trait Parser
         $arrayCollection = array();
 
         foreach($sensors as $item) {
-            
 
             $arrayCollection[] = $this->parseSensor($item);
         }
@@ -58,62 +52,67 @@ trait Parser
     }
 
 
-    private function parseWines($wines): array
+    private function parseWines($wines, $withMeasurings = true): array
     {
         $arrayCollection = array();
 
         foreach($wines as $item) {
 
-            $arrayCollection[] = $this->parseWine($item);
+            $arrayCollection[] = $this->parseWine($item, $withMeasurings);
         }
 
         return $arrayCollection;
     }
 
 
-    private function parseWine($item): array
+    private function parseWine($item, $withMeasurings = true): array
     {
-
-        return array(
+        $wine = array(
             'id' => $item->getId(),
             'name' => $item->getName(),
             'year' => $item->getYear()
         );
+
+        if ($withMeasurings) {
+
+            $wine['measurings'] = $this->parseMeasurings($item->getMeasurings(), false);
+        }
+
+        return $wine;
     }
 
 
-    private function parseMeasurings($measurings): array
+    private function parseMeasurings($measurings, $withWine = true): array
     {
         $arrayCollection = array();
 
         foreach($measurings as $item) {
 
-            $arrayCollection[] = $this->parseMeasuring($item);
+            $arrayCollection[] = $this->parseMeasuring($item, $withWine);
         }
 
         return $arrayCollection;
     }
 
 
-    private function parseMeasuring($item): array
+    private function parseMeasuring($item, $withWine = true): array
     {
 
-        return array(
+        $measuring = array(
             'id' => $item->getId(),
             'year' => $item->getYear(),
-            'sensor' => $this->parseSensor($item->getSensor()),
-            'wine' => $this->parseWine($item->getWine()),
             'color' => $item->getColor(),
             'temperature' => $item->getTemperature() ? number_format($item->getTemperature(),2,',','.') . ' ºC' : null,
             'graduation' => $item->getGraduation(),
-            'PH' => $item->getPh()
+            'PH' => $item->getPh(),
+            'sensor' => $this->parseSensor($item->getSensor())
         );
-    }
 
+        if($withWine) {
 
-    public function formatDateTime($datetime): string|null
-    {
+            $measuring['wine'] = $this->parseWine($item->getWine(), false);
+        }
 
-        return $datetime ? $datetime->format($this::DATE_FORMAT) : null;
+        return $measuring;
     }
 }
