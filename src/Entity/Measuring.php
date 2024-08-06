@@ -16,9 +16,6 @@ class Measuring
     #[ORM\Column(nullable: true)]
     private ?int $year = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $relation = null;
-
     #[ORM\ManyToOne(inversedBy: 'measurings')]
     private ?Sensor $sensor = null;
 
@@ -50,18 +47,6 @@ class Measuring
     public function setYear(?int $year): static
     {
         $this->year = $year;
-
-        return $this;
-    }
-
-    public function getRelation(): ?string
-    {
-        return $this->relation;
-    }
-
-    public function setRelation(?string $relation): static
-    {
-        $this->relation = $relation;
 
         return $this;
     }
