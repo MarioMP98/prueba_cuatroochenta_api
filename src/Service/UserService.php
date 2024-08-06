@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Traits\Parser;
 
@@ -27,10 +26,10 @@ class UserService
     }
 
 
-    public function create($params, $passwordHasher): User
+    public function create($params): array
     {
 
-        return $this->repository->create($params, $passwordHasher);
+        return $this->parseUser($this->repository->create($params));
     }
 
 }

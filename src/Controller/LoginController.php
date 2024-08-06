@@ -11,7 +11,6 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 class LoginController extends AbstractController
 {
 
-    #[Route('/api/login', name: 'api_login', methods: ['POST'])]
     public function index(#[CurrentUser] ?User $user): JsonResponse
     {
 
