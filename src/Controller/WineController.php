@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Wine;
 use App\Service\WineService;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +21,20 @@ class WineController extends AbstractController
     }
 
 
+    /**
+     * Lists the existing wines.
+     *
+     * Retrieves and shows a list of all the wines in the database, including all of their measurings.
+     */
+    #[OA\Response(
+        response: 200,
+        description: 'The list of wines',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: Wine::class))
+        )
+    )]
+    #[OA\Tag(name: 'wine_list')]
     public function list(): JsonResponse
     {
         try {
@@ -33,6 +50,31 @@ class WineController extends AbstractController
     }
 
 
+    /**
+     * Creates a new wine.
+     *
+     * Creates a new wine in the database with the data passed through the request.
+     */
+    #[OA\Response(
+        response: 200,
+        description: 'A confirmation message with the new entity\'s id',
+        content: new OA\JsonContent(
+            type: 'string'
+        )
+    )]
+    #[OA\Parameter(
+        name: 'name',
+        in: 'query',
+        description: 'A name to assign to the wine',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'year',
+        in: 'query',
+        description: 'The year the wine was made',
+        schema: new OA\Schema(type: 'integer')
+    )]
+    #[OA\Tag(name: 'wine_create')]
     public function create(Request $request): JsonResponse
     {
         try {
@@ -48,6 +90,37 @@ class WineController extends AbstractController
     }
 
 
+    /**
+     * Update an existing wine
+     *
+     * Updates an existing wine in the database with the data passed through the request.
+     */
+    #[OA\Response(
+        response: 200,
+        description: 'A confirmation message with the updated entity\'s id',
+        content: new OA\JsonContent(
+            type: 'string'
+        )
+    )]
+    #[OA\Parameter(
+        name: 'id',
+        in: 'path',
+        description: 'The id of the wine to update',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'name',
+        in: 'query',
+        description: 'A name to assign to the wine',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'year',
+        in: 'query',
+        description: 'The year the wine was made',
+        schema: new OA\Schema(type: 'integer')
+    )]
+    #[OA\Tag(name: 'wine_update')]
     public function update($id, Request $request): JsonResponse
     {
         try {
@@ -69,6 +142,25 @@ class WineController extends AbstractController
     }
 
 
+    /**
+     * Delete an existing wine
+     *
+     * Deletes an existing wine in the database.
+     */
+    #[OA\Response(
+        response: 200,
+        description: 'A confirmation message that the entity was successfully deleted',
+        content: new OA\JsonContent(
+            type: 'string'
+        )
+    )]
+    #[OA\Parameter(
+        name: 'id',
+        in: 'path',
+        description: 'The id of the wine to delete',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Tag(name: 'wine_delete')]
     public function delete($id): JsonResponse
     {
         try {

@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Measuring;
 use App\Service\MeasuringService;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +21,21 @@ class MeasuringController extends AbstractController
     }
 
 
+    /**
+     * Lists the existing measurings.
+     *
+     * Retrieves and shows a list of all the measurings in the database, including the wine
+     * that was measured and the sensor that was used.
+     */
+    #[OA\Response(
+        response: 200,
+        description: 'The list of measurings',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: Measuring::class))
+        )
+    )]
+    #[OA\Tag(name: 'measuring_list')]
     public function list(): JsonResponse
     {
         try {
@@ -33,6 +51,61 @@ class MeasuringController extends AbstractController
     }
 
 
+    /**
+     * Creates a new measuring.
+     *
+     * Creates a new measuring in the database with the data passed through the request.
+     */
+    #[OA\Response(
+        response: 200,
+        description: 'A confirmation message with the new entity\'s id',
+        content: new OA\JsonContent(
+            type: 'string'
+        )
+    )]
+    #[OA\Parameter(
+        name: 'sensor',
+        in: 'query',
+        description: 'The id of the sensor that was used for the measuring',
+        schema: new OA\Schema(type: 'integer')
+    )]
+    #[OA\Parameter(
+        name: 'wine',
+        in: 'query',
+        description: 'The id of the wine that was measured',
+        schema: new OA\Schema(type: 'integer')
+    )]
+    #[OA\Parameter(
+        name: 'year',
+        in: 'query',
+        description: 'The year the measuring was done',
+        schema: new OA\Schema(type: 'integer')
+    )]
+    #[OA\Parameter(
+        name: 'color',
+        in: 'query',
+        description: 'The coloration of the wine',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'temperature',
+        in: 'query',
+        description: 'The temperature in celsius the wine had during the measuring',
+        schema: new OA\Schema(type: 'float')
+    )]
+    #[OA\Parameter(
+        name: 'graduation',
+        in: 'query',
+        description: 'The level of alcoholic graduation the wine had during the measuring',
+        schema: new OA\Schema(type: 'float')
+    )]
+    #[OA\Parameter(
+        name: 'ph',
+        in: 'query',
+        description: 'The PH level the wine had during the measuring',
+        schema: new OA\Schema(type: 'float')
+    )]
+    #[OA\Tag(name: 'measuring_create')]
     public function create(Request $request): JsonResponse
     {
         try {
@@ -48,6 +121,67 @@ class MeasuringController extends AbstractController
     }
 
 
+    /**
+     * Update an existing measuring
+     *
+     * Updates an existing measuring in the database with the data passed through the request.
+     */
+    #[OA\Response(
+        response: 200,
+        description: 'A confirmation message with the updated entity\'s id',
+        content: new OA\JsonContent(
+            type: 'string'
+        )
+    )]
+    #[OA\Parameter(
+        name: 'id',
+        in: 'path',
+        description: 'The id of the measuring to update',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'sensor',
+        in: 'query',
+        description: 'The id of the sensor that was used for the measuring',
+        schema: new OA\Schema(type: 'integer')
+    )]
+    #[OA\Parameter(
+        name: 'wine',
+        in: 'query',
+        description: 'The id of the wine that was measured',
+        schema: new OA\Schema(type: 'integer')
+    )]
+    #[OA\Parameter(
+        name: 'year',
+        in: 'query',
+        description: 'The year the measuring was done',
+        schema: new OA\Schema(type: 'integer')
+    )]
+    #[OA\Parameter(
+        name: 'color',
+        in: 'query',
+        description: 'The coloration of the wine',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'temperature',
+        in: 'query',
+        description: 'The temperature in celsius the wine had during the measuring',
+        schema: new OA\Schema(type: 'float')
+    )]
+    #[OA\Parameter(
+        name: 'graduation',
+        in: 'query',
+        description: 'The level of alcoholic graduation the wine had during the measuring',
+        schema: new OA\Schema(type: 'float')
+    )]
+    #[OA\Parameter(
+        name: 'ph',
+        in: 'query',
+        description: 'The PH level the wine had during the measuring',
+        schema: new OA\Schema(type: 'float')
+    )]
+    #[OA\Tag(name: 'measuring_update')]
     public function update($id, Request $request): JsonResponse
     {
         try {
@@ -69,6 +203,25 @@ class MeasuringController extends AbstractController
     }
 
 
+    /**
+     * Delete an existing measuring
+     *
+     * Deletes an existing measuring in the database.
+     */
+    #[OA\Response(
+        response: 200,
+        description: 'A confirmation message that the entity was successfully deleted',
+        content: new OA\JsonContent(
+            type: 'string'
+        )
+    )]
+    #[OA\Parameter(
+        name: 'id',
+        in: 'path',
+        description: 'The id of the measuring to delete',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Tag(name: 'measuring_delete')]
     public function delete($id): JsonResponse
     {
         try {

@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Sensor;
 use App\Service\SensorService;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +21,20 @@ class SensorController extends AbstractController
     }
 
 
+    /**
+     * Lists the existing sensors.
+     *
+     * Retrieves and shows a list of all the sensors in the database, ordered alphabetically by name.
+     */
+    #[OA\Response(
+        response: 200,
+        description: 'The list of sensors',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: Sensor::class))
+        )
+    )]
+    #[OA\Tag(name: 'sensor_list')]
     public function list(): JsonResponse
     {
         try {
@@ -33,6 +50,25 @@ class SensorController extends AbstractController
     }
 
 
+    /**
+     * Creates a new sensor.
+     *
+     * Creates a new sensor in the database with the data passed through the request.
+     */
+    #[OA\Response(
+        response: 200,
+        description: 'A confirmation message with the new entity\'s id',
+        content: new OA\JsonContent(
+            type: 'string'
+        )
+    )]
+    #[OA\Parameter(
+        name: 'name',
+        in: 'query',
+        description: 'A name to assign to the sensor',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Tag(name: 'sensor_create')]
     public function create(Request $request): JsonResponse
     {
         try {
@@ -48,6 +84,31 @@ class SensorController extends AbstractController
     }
 
 
+    /**
+     * Update an existing sensor
+     *
+     * Updates an existing sensor in the database with the data passed through the request.
+     */
+    #[OA\Response(
+        response: 200,
+        description: 'A confirmation message with the updated entity\'s id',
+        content: new OA\JsonContent(
+            type: 'string'
+        )
+    )]
+    #[OA\Parameter(
+        name: 'id',
+        in: 'path',
+        description: 'The id of the sensor to update',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'name',
+        in: 'query',
+        description: 'A name to assign to the sensor',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Tag(name: 'sensor_update')]
     public function update($id, Request $request): JsonResponse
     {
         try {
@@ -69,6 +130,25 @@ class SensorController extends AbstractController
     }
 
 
+    /**
+     * Delete an existing sensor
+     *
+     * Deletes an existing sensor in the database.
+     */
+    #[OA\Response(
+        response: 200,
+        description: 'A confirmation message that the entity was successfully deleted',
+        content: new OA\JsonContent(
+            type: 'string'
+        )
+    )]
+    #[OA\Parameter(
+        name: 'id',
+        in: 'path',
+        description: 'The id of the sensor to delete',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Tag(name: 'sensor_delete')]
     public function delete($id): JsonResponse
     {
         try {
