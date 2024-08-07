@@ -8,7 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Attribute\Route;
 
 class RegistrationController extends AbstractController
 {
@@ -31,14 +30,6 @@ class RegistrationController extends AbstractController
         $user = $this->service->create($request->request->all());
 
         return new JsonResponse($user, 201);
-    }
-
-    #[Route('/profile', name:'user.profile')]
-    public function profile(Request $request): JsonResponse
-    {
-        $user = $this->security->getUser();
-
-        return new JsonResponse($this->parseUser($user), 200);
     }
 
 }
