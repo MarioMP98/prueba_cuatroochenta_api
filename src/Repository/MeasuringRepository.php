@@ -31,33 +31,7 @@ class MeasuringRepository extends ServiceEntityRepository
     {
         $measuring = new Measuring();
 
-        if(isset($params['year'])) {
-            $measuring->setYear($params['year']);
-        }
-
-        if(isset($params['color'])) {
-            $measuring->setColor($params['color']);
-        }
-
-        if(isset($params['temperature'])) {
-            $measuring->setTemperature($params['temperature']);
-        }
-
-        if(isset($params['graduation'])) {
-            $measuring->setGraduation($params['graduation']);
-        }
-
-        if(isset($params['ph'])) {
-            $measuring->setPh($params['ph']);
-        }
-
-        if($sensor) {
-            $measuring->setSensor($sensor);
-        }
-
-        if($wine) {
-            $measuring->setWine($wine);
-        }
+        $this->asignParameters($measuring, $params, $sensor, $wine);
 
         $entityManager = $this->getEntityManager();
         $entityManager->persist($measuring);
@@ -74,34 +48,8 @@ class MeasuringRepository extends ServiceEntityRepository
 
         if($measuring) {
 
-            if(isset($params['year'])) {
-                $measuring->setYear($params['year']);
-            }
-    
-            if(isset($params['color'])) {
-                $measuring->setColor($params['color']);
-            }
-    
-            if(isset($params['temperature'])) {
-                $measuring->setTemperature($params['temperature']);
-            }
-    
-            if(isset($params['graduation'])) {
-                $measuring->setGraduation($params['graduation']);
-            }
-    
-            if(isset($params['ph'])) {
-                $measuring->setPh($params['ph']);
-            }
+            $this->asignParameters($measuring, $params, $sensor, $wine);
 
-            if($sensor) {
-                $measuring->setSensor($sensor);
-            }
-    
-            if($wine) {
-                $measuring->setWine($wine);
-            }
-            
             $entityManager->flush();
         }
 
@@ -120,5 +68,38 @@ class MeasuringRepository extends ServiceEntityRepository
         }
 
         return $measuring;
+    }
+
+
+    private function asignParameters($measuring, $params, $sensor, $wine): void
+    {
+
+        if(isset($params['year'])) {
+            $measuring->setYear(intval($params['year']) ?: null);
+        }
+
+        if(isset($params['color'])) {
+            $measuring->setColor($params['color']);
+        }
+
+        if(isset($params['temperature'])) {
+            $measuring->setTemperature(doubleval($params['temperature']));
+        }
+
+        if(isset($params['graduation'])) {
+            $measuring->setGraduation(doubleval($params['graduation']));
+        }
+
+        if(isset($params['ph'])) {
+            $measuring->setPh(doubleval($params['ph']));
+        }
+
+        if($sensor) {
+            $measuring->setSensor($sensor);
+        }
+
+        if($wine) {
+            $measuring->setWine($wine);
+        }
     }
 }

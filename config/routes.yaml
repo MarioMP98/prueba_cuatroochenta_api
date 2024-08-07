@@ -14,7 +14,6 @@ login:
     defaults:
         _format: json
 
-
 logout:
     path:       /api/logout
     methods:    POST
@@ -24,6 +23,11 @@ user_register:
     path:       /api/register
     controller: App\Controller\RegistrationController::register
     methods:    POST
+
+user_list:
+    path:       /api/user/list
+    controller: App\Controller\RegistrationController::list
+    methods:    GET
 
 
 ######### SENSOR #########

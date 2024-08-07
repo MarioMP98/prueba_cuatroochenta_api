@@ -23,6 +23,14 @@ class RegistrationController extends AbstractController
         $this->security = $security;
     }
 
+    public function list(): JsonResponse
+    {
+        
+        $users = $this->service->list();
+
+        return new JsonResponse($users, 200);
+    }
+
 
     public function register(Request $request): JsonResponse
     {

@@ -67,6 +67,11 @@ class SensorRepository extends ServiceEntityRepository
         $sensor = $this->find($id);
 
         if($sensor) {
+
+            foreach($sensor->getMeasurings() as $measuring){
+                $sensor->removeMeasuring($measuring);
+            }
+
             $entityManager->remove($sensor);
             $entityManager->flush();
         }

@@ -20,7 +20,7 @@ class UserService
 
     public function list(): array
     {
-        $users = $this->repository->list();
+        $users = $this->repository->findAll();
 
         return $this->parseUsers($users);
     }

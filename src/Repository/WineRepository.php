@@ -36,7 +36,7 @@ class WineRepository extends ServiceEntityRepository
         }
 
         if(isset($params['year'])) {
-            $wine->setYear($params['year']);
+            $wine->setYear(intval($params['year']) ?: null);
         }
 
         $entityManager = $this->getEntityManager();
@@ -59,7 +59,7 @@ class WineRepository extends ServiceEntityRepository
             }
 
             if(isset($params['year'])) {
-                $wine->setYear($params['year']);
+                $wine->setYear(intval($params['year']) ?: null);
             }
             
             $entityManager->flush();
@@ -75,6 +75,11 @@ class WineRepository extends ServiceEntityRepository
         $wine = $this->find($id);
 
         if($wine) {
+
+            foreach($wine->getMeasurings() as $measuring){
+                $wine->removeMeasuring($measuring);
+            }
+
             $entityManager->remove($wine);
             $entityManager->flush();
         }

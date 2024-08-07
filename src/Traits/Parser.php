@@ -23,7 +23,8 @@ trait Parser
         
         return array(
             'id' => $item->getId(),
-            'nombre' => $item->getName(),
+            'name' => $item->getName(),
+            'last_name' => $item->getLastName(),
             'email' => $item->getEmail()
         );
     }
@@ -105,12 +106,12 @@ trait Parser
             'temperature' => $item->getTemperature() ? number_format($item->getTemperature(),2,',','.') . ' ºC' : null,
             'graduation' => $item->getGraduation(),
             'PH' => $item->getPh(),
-            'sensor' => $this->parseSensor($item->getSensor())
+            'sensor' => $item->getSensor() ? $this->parseSensor($item->getSensor()) : null
         );
 
         if($withWine) {
 
-            $measuring['wine'] = $this->parseWine($item->getWine(), false);
+            $measuring['wine'] = $item->getWine() ? $this->parseWine($item->getWine(), false) : null;
         }
 
         return $measuring;
